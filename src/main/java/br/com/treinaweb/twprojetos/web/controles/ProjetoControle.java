@@ -1,4 +1,4 @@
-package br.com.treinaweb.twprojetos.controles;
+package br.com.treinaweb.twprojetos.web.controles;
 
 import javax.validation.Valid;
 

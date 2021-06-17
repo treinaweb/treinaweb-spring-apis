@@ -1,4 +1,4 @@
-package br.com.treinaweb.twprojetos.controles;
+package br.com.treinaweb.twprojetos.web.controles;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.WebDataBinder;
