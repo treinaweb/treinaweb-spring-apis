@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import br.com.treinaweb.twprojetos.api.dto.CargoDTO;
 import br.com.treinaweb.twprojetos.entidades.Cargo;
 import br.com.treinaweb.twprojetos.excecoes.CargoNaoEncontradoException;
 import br.com.treinaweb.twprojetos.excecoes.CargoPossuiFuncionariosException;
@@ -32,6 +33,14 @@ public class CargoServico {
     }
 
     public Cargo cadastrar(Cargo cargo) {
+        return cargoRepositorio.save(cargo);
+    }
+
+    public Cargo cadastrar(CargoDTO cargoDTO) {
+        Cargo cargo = new Cargo();
+
+        cargo.setNome(cargoDTO.getNome());
+
         return cargoRepositorio.save(cargo);
     }
 

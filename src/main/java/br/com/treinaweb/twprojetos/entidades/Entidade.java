@@ -49,5 +49,5 @@ public abstract class Entidade {
     public String toString() {
         return String.format("%s [id=%d]", this.getClass().getName(), getId());
     }
-    
+
 }
