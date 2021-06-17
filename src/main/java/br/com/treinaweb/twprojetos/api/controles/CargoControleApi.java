@@ -2,6 +2,8 @@ package br.com.treinaweb.twprojetos.api.controles;
 
 import java.util.List;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -37,12 +39,12 @@ public class CargoControleApi {
 
     @PostMapping
     @ResponseStatus(code = HttpStatus.CREATED)
-    public Cargo cadastrar(@RequestBody CargoDTO cargoDTO) {
+    public Cargo cadastrar(@RequestBody @Valid CargoDTO cargoDTO) {
         return cargoServico.cadastrar(cargoDTO);
     }
 
     @PutMapping("/{id}")
-    public Cargo atualizar(@RequestBody CargoDTO cargoDTO, @PathVariable Long id) {
+    public Cargo atualizar(@RequestBody @Valid CargoDTO cargoDTO, @PathVariable Long id) {
         return cargoServico.atualizar(cargoDTO, id);
     }
 
