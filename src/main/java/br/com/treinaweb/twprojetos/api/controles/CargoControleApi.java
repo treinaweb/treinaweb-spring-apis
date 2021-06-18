@@ -5,7 +5,10 @@ import java.util.List;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.hateoas.CollectionModel;
+import org.springframework.hateoas.EntityModel;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -17,6 +20,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import br.com.treinaweb.twprojetos.api.dto.CargoDTO;
+import br.com.treinaweb.twprojetos.api.hateoas.CargoAssembler;
 import br.com.treinaweb.twprojetos.entidades.Cargo;
 import br.com.treinaweb.twprojetos.servicos.CargoServico;
 
@@ -27,31 +31,43 @@ public class CargoControleApi {
     @Autowired
     private CargoServico cargoServico;
 
+    @Autowired
+    private CargoAssembler cargoAssembler;
+
     @GetMapping
-    public List<Cargo> buscarTodos() {
-        return cargoServico.buscarTodos();
+    public CollectionModel<EntityModel<Cargo>> buscarTodos() {
+        List<Cargo> cargos = cargoServico.buscarTodos();
+
+        return cargoAssembler.toCollectionModel(cargos);
     }
 
     @GetMapping("/{id}")
-    public Cargo buscarPorId(@PathVariable Long id) {
-        return cargoServico.buscarPorId(id);
+    public EntityModel<Cargo> buscarPorId(@PathVariable Long id) {
+        Cargo cargo = cargoServico.buscarPorId(id);
+
+        return cargoAssembler.toModel(cargo);
     }
 
     @PostMapping
     @ResponseStatus(code = HttpStatus.CREATED)
-    public Cargo cadastrar(@RequestBody @Valid CargoDTO cargoDTO) {
-        return cargoServico.cadastrar(cargoDTO);
+    public EntityModel<Cargo> cadastrar(@RequestBody @Valid CargoDTO cargoDTO) {
+        Cargo cargo = cargoServico.cadastrar(cargoDTO);
+
+        return cargoAssembler.toModel(cargo);
     }
 
     @PutMapping("/{id}")
-    public Cargo atualizar(@RequestBody @Valid CargoDTO cargoDTO, @PathVariable Long id) {
-        return cargoServico.atualizar(cargoDTO, id);
+    public EntityModel<Cargo> atualizar(@RequestBody @Valid CargoDTO cargoDTO, @PathVariable Long id) {
+        Cargo cargo = cargoServico.atualizar(cargoDTO, id);
+
+        return cargoAssembler.toModel(cargo);
     }
 
     @DeleteMapping("/{id}")
-    @ResponseStatus(code = HttpStatus.NO_CONTENT)
-    public void excluirPorId(@PathVariable Long id) {
+    public ResponseEntity<?> excluirPorId(@PathVariable Long id) {
         cargoServico.excluirPorId(id);
+
+        return ResponseEntity.noContent().build();
     }
 
 }
