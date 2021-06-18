@@ -5,7 +5,10 @@ import javax.persistence.Entity;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
+import org.springframework.hateoas.server.core.Relation;
+
 @Entity
+@Relation(collectionRelation = "cargos")
 public class Cargo extends Entidade {
 
     @NotNull
