@@ -1,7 +1,5 @@
 package br.com.treinaweb.twprojetos.api.controles;
 
-import java.util.List;
-
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
