@@ -23,7 +23,11 @@ public class ClienteAssembler implements SimpleRepresentationModelAssembler<Clie
             .withSelfRel()
             .withType("GET");
 
-        resource.add(selfLink);
+        Link projetosLink = linkTo(methodOn(ClienteControleApi.class).buscarProjetos(id))
+            .withRel("projetos")
+            .withType("GET");
+
+        resource.add(selfLink, projetosLink);
     }
 
     @Override

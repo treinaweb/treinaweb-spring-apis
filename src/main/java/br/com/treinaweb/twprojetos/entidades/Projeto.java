@@ -16,12 +16,16 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.PastOrPresent;
 import javax.validation.constraints.Size;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.format.annotation.NumberFormat;
 import org.springframework.format.annotation.DateTimeFormat.ISO;
 import org.springframework.format.annotation.NumberFormat.Style;
+import org.springframework.hateoas.server.core.Relation;
 
 @Entity
+@Relation(collectionRelation = "projetos")
 public class Projeto extends Entidade {
 
     @NotNull
@@ -43,12 +47,14 @@ public class Projeto extends Entidade {
     @DateTimeFormat(iso = ISO.DATE)
     private LocalDate dataFim;
 
+    @JsonIgnore
     @Valid
     @NotNull
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "cliente_id_fk", nullable = false)
     private Cliente cliente;
 
+    @JsonIgnore
     @Valid
     @NotNull
     @ManyToOne(fetch = FetchType.LAZY)
@@ -65,6 +71,7 @@ public class Projeto extends Entidade {
     @NumberFormat(style = Style.CURRENCY, pattern = "#,##0.00")
     private BigDecimal gastos;
 
+    @JsonIgnore
     @ManyToMany
     @JoinTable(
         name = "projeto_funcionario",
