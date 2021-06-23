@@ -3,6 +3,8 @@ package br.com.treinaweb.twprojetos.servicos;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import br.com.treinaweb.twprojetos.entidades.Cliente;
@@ -22,6 +24,10 @@ public class ClienteServico {
 
     public List<Cliente> buscarTodos() {
         return clienteRepositorio.findAll();
+    }
+
+    public Page<Cliente> buscarTodos(Pageable paginacao) {
+        return clienteRepositorio.findAll(paginacao);
     }
 
     public Cliente buscarPorId(Long id) {

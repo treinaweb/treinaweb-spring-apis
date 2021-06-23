@@ -15,6 +15,8 @@ import javax.validation.constraints.Past;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import org.hibernate.validator.constraints.br.CPF;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.format.annotation.DateTimeFormat.ISO;
@@ -52,6 +54,7 @@ public abstract class Pessoa extends Entidade {
     @DateTimeFormat(iso = ISO.DATE)
     private LocalDate dataNascimento;
 
+    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
     @Valid
     @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JoinColumn(name = "endereco_id_fk", nullable = false)
