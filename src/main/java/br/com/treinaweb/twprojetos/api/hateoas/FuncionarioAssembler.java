@@ -19,12 +19,17 @@ public class FuncionarioAssembler implements SimpleRepresentationModelAssembler<
     @Override
     public void addLinks(EntityModel<Funcionario> resource) {
         Long cargoId = resource.getContent().getCargo().getId();
+        Long id = resource.getContent().getId();
 
         Link cargoLink = linkTo(methodOn(CargoControleApi.class).buscarPorId(cargoId))
             .withRel("cargo")
             .withType("GET");
 
-        resource.add(cargoLink);
+        Link selfLink = linkTo(methodOn(FuncionarioControleApi.class).buscarPorId(id))
+            .withSelfRel()
+            .withType("GET");
+
+        resource.add(cargoLink, selfLink);
     }
 
     @Override
