@@ -7,6 +7,8 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import br.com.treinaweb.twprojetos.api.dto.ProjetoDTO;
+import br.com.treinaweb.twprojetos.api.mapeadores.ProjetoMapeador;
 import br.com.treinaweb.twprojetos.entidades.Projeto;
 import br.com.treinaweb.twprojetos.excecoes.ProjetoNaoEncontradoException;
 import br.com.treinaweb.twprojetos.repositorios.ProjetoRepositorio;
@@ -16,6 +18,9 @@ public class ProjetoServico {
 
     @Autowired
     private ProjetoRepositorio projetoRepositorio;
+
+    @Autowired
+    private ProjetoMapeador projetoMapeador;
 
     public List<Projeto> buscarTodos() {
         return projetoRepositorio.findAll();
@@ -31,6 +36,12 @@ public class ProjetoServico {
     }
 
     public Projeto cadastrar(Projeto projeto) {
+        return projetoRepositorio.save(projeto);
+    }
+
+    public Projeto cadastrar(ProjetoDTO projetoDTO) {
+        Projeto projeto = projetoMapeador.converterParaEntidade(projetoDTO);
+
         return projetoRepositorio.save(projeto);
     }
 
