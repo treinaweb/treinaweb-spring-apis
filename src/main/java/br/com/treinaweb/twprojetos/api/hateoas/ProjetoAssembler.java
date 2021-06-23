@@ -1,10 +1,17 @@
 package br.com.treinaweb.twprojetos.api.hateoas;
 
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
+
 import org.springframework.hateoas.CollectionModel;
 import org.springframework.hateoas.EntityModel;
+import org.springframework.hateoas.Link;
 import org.springframework.hateoas.server.SimpleRepresentationModelAssembler;
 import org.springframework.stereotype.Component;
 
+import br.com.treinaweb.twprojetos.api.controles.ClienteControleApi;
+import br.com.treinaweb.twprojetos.api.controles.FuncionarioControleApi;
+import br.com.treinaweb.twprojetos.api.controles.ProjetoControleApi;
 import br.com.treinaweb.twprojetos.entidades.Projeto;
 
 @Component
@@ -12,14 +19,27 @@ public class ProjetoAssembler implements SimpleRepresentationModelAssembler<Proj
 
     @Override
     public void addLinks(EntityModel<Projeto> resource) {
-        // TODO Auto-generated method stub
+        Long clienteId = resource.getContent().getCliente().getId();
+        Long liderId = resource.getContent().getLider().getId();
 
+        Link liderLink = linkTo(methodOn(FuncionarioControleApi.class).buscarPorId(liderId))
+            .withRel("lider")
+            .withType("GET");
+
+        Link clienteLink = linkTo(methodOn(ClienteControleApi.class).buscarPorId(clienteId))
+            .withRel("cliente")
+            .withType("GET");
+
+        resource.add(liderLink, clienteLink);
     }
 
     @Override
     public void addLinks(CollectionModel<EntityModel<Projeto>> resources) {
-        // TODO Auto-generated method stub
+        Link selfLink = linkTo(methodOn(ProjetoControleApi.class).buscarTodos(null))
+            .withSelfRel()
+            .withType("GET");
 
+        resources.add(selfLink);
     }
 
 }
