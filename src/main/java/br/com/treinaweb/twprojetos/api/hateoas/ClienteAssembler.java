@@ -17,8 +17,13 @@ public class ClienteAssembler implements SimpleRepresentationModelAssembler<Clie
 
     @Override
     public void addLinks(EntityModel<Cliente> resource) {
-        // TODO Auto-generated method stub
+        Long id = resource.getContent().getId();
 
+        Link selfLink = linkTo(methodOn(ClienteControleApi.class).buscarPorId(id))
+            .withSelfRel()
+            .withType("GET");
+
+        resource.add(selfLink);
     }
 
     @Override
