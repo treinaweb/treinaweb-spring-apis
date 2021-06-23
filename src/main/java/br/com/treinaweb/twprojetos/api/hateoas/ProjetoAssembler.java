@@ -47,7 +47,11 @@ public class ProjetoAssembler implements SimpleRepresentationModelAssembler<Proj
             .withRel("equipe")
             .withType("GET");
 
-        resource.add(liderLink, clienteLink, selfLink, editarLink, excluirLink, equipeLink);
+        Link atualizarEquipeLink = linkTo(methodOn(ProjetoControleApi.class).atualizarEquipe(id, null))
+            .withRel("equipe")
+            .withType("PATCH");
+
+        resource.add(liderLink, clienteLink, selfLink, editarLink, excluirLink, equipeLink, atualizarEquipeLink);
     }
 
     @Override
