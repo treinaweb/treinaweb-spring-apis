@@ -7,6 +7,7 @@ import org.springframework.data.web.PagedResourcesAssembler;
 import org.springframework.hateoas.CollectionModel;
 import org.springframework.hateoas.EntityModel;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -32,6 +33,13 @@ public class ProjetoControleApi {
         Page<Projeto> projetos = projetoServico.buscarTodos(paginacao);
 
         return pagedResourcesAssembler.toModel(projetos, projetoAssembler);
+    }
+
+    @GetMapping("/{id}")
+    public EntityModel<Projeto> buscarPorId(@PathVariable Long id) {
+        Projeto projeto = projetoServico.buscarPorId(id);
+
+        return projetoAssembler.toModel(projeto);
     }
 
 }

@@ -21,6 +21,7 @@ public class ProjetoAssembler implements SimpleRepresentationModelAssembler<Proj
     public void addLinks(EntityModel<Projeto> resource) {
         Long clienteId = resource.getContent().getCliente().getId();
         Long liderId = resource.getContent().getLider().getId();
+        Long id = resource.getContent().getId();
 
         Link liderLink = linkTo(methodOn(FuncionarioControleApi.class).buscarPorId(liderId))
             .withRel("lider")
@@ -30,7 +31,11 @@ public class ProjetoAssembler implements SimpleRepresentationModelAssembler<Proj
             .withRel("cliente")
             .withType("GET");
 
-        resource.add(liderLink, clienteLink);
+        Link selfLink = linkTo(methodOn(ProjetoControleApi.class).buscarPorId(id))
+            .withSelfRel()
+            .withType("GET");
+
+        resource.add(liderLink, clienteLink, selfLink);
     }
 
     @Override
