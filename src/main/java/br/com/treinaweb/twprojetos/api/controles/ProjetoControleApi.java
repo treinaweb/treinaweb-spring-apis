@@ -1,5 +1,7 @@
 package br.com.treinaweb.twprojetos.api.controles;
 
+import java.util.List;
+
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,7 +23,9 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import br.com.treinaweb.twprojetos.api.dto.ProjetoDTO;
+import br.com.treinaweb.twprojetos.api.hateoas.FuncionarioAssembler;
 import br.com.treinaweb.twprojetos.api.hateoas.ProjetoAssembler;
+import br.com.treinaweb.twprojetos.entidades.Funcionario;
 import br.com.treinaweb.twprojetos.entidades.Projeto;
 import br.com.treinaweb.twprojetos.servicos.ProjetoServico;
 
@@ -34,6 +38,9 @@ public class ProjetoControleApi {
 
     @Autowired
     private ProjetoAssembler projetoAssembler;
+
+    @Autowired
+    private FuncionarioAssembler funcionarioAssembler;
 
     @Autowired
     private PagedResourcesAssembler<Projeto> pagedResourcesAssembler;
@@ -73,6 +80,13 @@ public class ProjetoControleApi {
         projetoServico.excluirPorId(id);
 
         return ResponseEntity.noContent().build();
+    }
+
+    @GetMapping("/{id}/equipe")
+    public CollectionModel<EntityModel<Funcionario>> buscarEquipe(@PathVariable Long id) {
+        List<Funcionario> equipe = projetoServico.buscarPorId(id).getEquipe();
+
+        return funcionarioAssembler.toCollectionModel(equipe);
     }
 
 }
