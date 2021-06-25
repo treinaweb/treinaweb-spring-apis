@@ -27,6 +27,7 @@ public class SwaggerConfig {
     @Bean
     public Docket getDocket() {
         return new Docket(DocumentationType.SWAGGER_2)
+            .useDefaultResponseMessages(false)
             .select()
             .apis(RequestHandlerSelectors.basePackage(PACOTE_BASE))
             .paths(PathSelectors.any())
